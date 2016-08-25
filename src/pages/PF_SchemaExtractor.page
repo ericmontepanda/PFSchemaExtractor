@@ -1,0 +1,92 @@
+<apex:page controller="PF_SchemaExtractor">
+    
+    <apex:form >
+        <apex:SelectList value="{!val}" size="1">
+            <apex:selectOptions value="{!Name}"></apex:selectOptions>
+        </apex:SelectList>
+        
+        <apex:commandButton value="Select Object" action="{!objField}" rerender="all, panel" oncomplete="loadTables();">
+            
+        </apex:commandButton>
+        
+        <!--<apex:pageBlock id="all">
+            <apex:pageBlockTable value="{!FieldResultList}" var="f">
+                <apex:column value="{!f.LabelName}" headerValue="Field Label"/>
+                <apex:column value="{!f.APIName}" headerValue="Field API Name"/>
+                <apex:column value="{!f.FieldType}" headerValue="Field Type"/>
+                <apex:column value="{!f.RelationshipName}" headerValue="Relationship Name"/>
+                <apex:column value="{!f.fieldlength}" headerValue="Field Length"/>
+                <apex:column value="{!f.inlinehelpText}" headerValue="Inline Help Text"/>
+                
+            </apex:pageBlockTable>
+        </apex:pageBlock>-->
+        
+        <apex:outputPanel id="panel">
+            <table id="example" class="display nowrap" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th>Field Label</th>
+                        <th>Field API Name</th>
+                        <th>Field Type</th>
+                        <th>Relationship Name</th>
+                        <th>Field Length</th>
+                        <th>Inline Help Text</th>
+                        
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Field Label</th>
+                        <th>Field API Name</th>
+                        <th>Field Type</th>
+                        <th>Relationship Name</th>
+                        <th>Field Length</th>
+                        <th>Inline Help Text</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    <apex:repeat value="{!FieldResultList}" var="f">
+                        <tr>
+                            <td>{!f.LabelName}</td>
+                            <td>{!f.APIName}</td>
+                            <td>{!f.FieldType}</td>
+                            <td>{!f.RelationshipName}</td>
+                            <td>{!f.fieldlength}</td>
+                            <td>{!f.inlinehelpText}</td>
+                        </tr>
+                    </apex:repeat>
+                </tbody>
+            </table>
+        </apex:outputPanel>
+    </apex:form>
+    
+    <apex:stylesheet value="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css"/>
+    <apex:stylesheet value="https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css"/>
+    <apex:includeScript value="//code.jquery.com/jquery-1.12.3.js"/>
+    <apex:includeScript value="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"/>
+    <apex:includeScript value="//cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"/>
+    <apex:includeScript value="//cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js"/>
+    <apex:includeScript value="//cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"/>
+    <apex:includeScript value="//cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"/>
+    <apex:includeScript value="//cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"/>
+    <apex:includeScript value="//cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"/>
+    <apex:includeScript value="//cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"/>
+    <script>
+    function newTable(){
+        
+        var table = $('#example').DataTable( {
+            dom: 'Blfrtip',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ]
+        } );
+    }
+   
+    function loadTables(){
+       newTable();
+    }
+    $(document).ready(function() {
+        newTable();
+    } );
+    </script>
+</apex:page>
