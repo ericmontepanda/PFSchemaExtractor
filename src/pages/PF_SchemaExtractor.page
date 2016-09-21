@@ -1,26 +1,20 @@
-<apex:page controller="PF_SchemaExtractor">
+<!--
+* VF Page Name : PF_SchemaExtractor * 
+* Description: Allows System Admin to quickly pull Object schema and export
+* Application: Schema Extractor
+* Created By : Eric Montelibano
+* Last Modified Date: 09/21/2016
+-->
+<apex:page controller="PF_SchemaExtractor" sidebar="false">
     
     <apex:form >
         <apex:SelectList value="{!val}" size="1">
             <apex:selectOptions value="{!Name}"></apex:selectOptions>
         </apex:SelectList>
         
-        <apex:commandButton value="Select Object" action="{!objField}" rerender="all, panel" oncomplete="loadTables();">
+        <apex:commandButton value="Go" action="{!objField}" rerender="all, panel" oncomplete="loadTables();">
             
         </apex:commandButton>
-        
-        <!--<apex:pageBlock id="all">
-            <apex:pageBlockTable value="{!FieldResultList}" var="f">
-                <apex:column value="{!f.LabelName}" headerValue="Field Label"/>
-                <apex:column value="{!f.APIName}" headerValue="Field API Name"/>
-                <apex:column value="{!f.FieldType}" headerValue="Field Type"/>
-                <apex:column value="{!f.RelationshipName}" headerValue="Relationship Name"/>
-                <apex:column value="{!f.fieldlength}" headerValue="Field Length"/>
-                <apex:column value="{!f.inlinehelpText}" headerValue="Inline Help Text"/>
-                
-            </apex:pageBlockTable>
-        </apex:pageBlock>-->
-        
         <apex:outputPanel id="panel">
             <table id="example" class="display nowrap" cellspacing="0" width="100%">
                 <thead>
@@ -31,6 +25,8 @@
                         <th>Relationship Name</th>
                         <th>Field Length</th>
                         <th>Inline Help Text</th>
+                        <th>Custom Field</th>
+                        <th>Required </th>
                         
                     </tr>
                 </thead>
@@ -42,6 +38,8 @@
                         <th>Relationship Name</th>
                         <th>Field Length</th>
                         <th>Inline Help Text</th>
+                        <th>Custom Field</th>
+                        <th>Required </th>
                     </tr>
                 </tfoot>
                 <tbody>
@@ -53,6 +51,8 @@
                             <td>{!f.RelationshipName}</td>
                             <td>{!f.fieldlength}</td>
                             <td>{!f.inlinehelpText}</td>
+                            <td>{!f.isCustom}</td>
+                            <td>{!f.required}</td>
                         </tr>
                     </apex:repeat>
                 </tbody>
@@ -75,6 +75,7 @@
     function newTable(){
         
         var table = $('#example').DataTable( {
+            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
             dom: 'Blfrtip',
             buttons: [
                 'copy', 'csv', 'excel', 'pdf', 'print'
