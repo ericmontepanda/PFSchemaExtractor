@@ -85,4 +85,25 @@ public class PF_SchemaExtractor {
         public string required {get;set;}
         public string isCustom {get;set;}
     }
+    
+     public void retObjectNames(){
+        List<Schema.SObjectType> gd = Schema.getGlobalDescribe().Values();     
+        List<SelectOption> options = new List<SelectOption>();
+        objNameList = new List <objectName>();
+        
+        for(Schema.SObjectType f : ProcessInstance.TargetObjectId.getDescribe().getReferenceTo())
+        {
+            objectName o = new objectName();
+            o.LabelName = f.getDescribe().getLabel();
+            o.APIName = f.getDescribe().getName();
+            objNameList.add(o);
+        }
+    }
+    
+    public list <objectName> objNameList {get;set;}
+    
+    public class objectName{
+        public String LabelName {get;set;}
+        public string APIName {get;set;}
+    }
 }
