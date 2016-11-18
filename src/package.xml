@@ -2,9 +2,11 @@
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
         <members>PF_SchemaExtractor</members>
+        <members>PF_SchemaExtractorTestClass</members>
         <name>ApexClass</name>
     </types>
     <types>
+        <members>PF_ObjectTable</members>
         <members>PF_SchemaExtractor</members>
         <name>ApexPage</name>
     </types>

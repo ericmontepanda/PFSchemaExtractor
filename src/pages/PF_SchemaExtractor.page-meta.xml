@@ -6,12 +6,17 @@
     <label>PF_SchemaExtractor</label>
     <packageVersions>
         <majorNumber>1</majorNumber>
-        <minorNumber>1</minorNumber>
-        <namespace>SFL20</namespace>
+        <minorNumber>816</minorNumber>
+        <namespace>SDOC</namespace>
     </packageVersions>
     <packageVersions>
         <majorNumber>1</majorNumber>
-        <minorNumber>11</minorNumber>
-        <namespace>sf_chttr_apps</namespace>
+        <minorNumber>0</minorNumber>
+        <namespace>platy_formation</namespace>
+    </packageVersions>
+    <packageVersions>
+        <majorNumber>1</majorNumber>
+        <minorNumber>7</minorNumber>
+        <namespace>sf_com_apps</namespace>
     </packageVersions>
 </ApexPage>
