@@ -17,11 +17,11 @@ public class PF_SchemaExtractorTestClass {
         controller.objField();
     }
     
-    public static testMethod void getSchemaObjet() {
+    /*public static testMethod void getSchemaObjet() {
         PF_SchemaExtractor controller = new PF_SchemaExtractor();
         controller.objName = 'Account';
-        controller.getallSchema();
-    }
+        controller.getallSchema(); 
+    }*/
     
     public static testMethod void testRetObjectName() {
         PF_SchemaExtractor controller = new PF_SchemaExtractor();
