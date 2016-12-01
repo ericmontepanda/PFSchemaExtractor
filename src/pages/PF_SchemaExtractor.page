@@ -6,58 +6,70 @@
 * Last Modified Date: 09/21/2016
 -->
 <apex:page controller="PF_SchemaExtractor" sidebar="false">
-    
     <apex:form >
-        <apex:SelectList value="{!val}" size="1">
-            <apex:selectOptions value="{!Name}"></apex:selectOptions>
-        </apex:SelectList>
-        
-        <apex:commandButton value="Go" action="{!objField}" rerender="all, panel" oncomplete="loadTables();">
+        <apex:pageBlock >
+             <apex:actionstatus id="AddStatus" >
+                <apex:facet name="start">
+                    <div class="waitingSearchDiv" id="el_loading" style="background-color: #fbfbfb;
+                                                                         height: 100%;opacity:0.65;width:100%;"> 
+                        <div class="waitingHolder" style="top: 74.2px; width: 91px;">
+                            <img class="waitingImage" src="/img/loading.gif" title="Please Wait..." /> <br/>
+                            <span class="waitingDescription">Loading Data...</span>
+                        </div>
+                    </div>
+                </apex:facet>
+            </apex:actionstatus>
+            <apex:SelectList value="{!val}" size="1">
+                <apex:selectOptions value="{!Name}"></apex:selectOptions>
+            </apex:SelectList>
             
-        </apex:commandButton>
-        <apex:outputPanel id="panel">
-            <table id="example" class="display nowrap" cellspacing="0" width="100%">
-                <thead>
-                    <tr>
-                        <th>Field Label</th>
-                        <th>Field API Name</th>
-                        <th>Field Type</th>
-                        <th>Relationship Name</th>
-                        <th>Field Length</th>
-                        <th>Inline Help Text</th>
-                        <th>Custom Field</th>
-                        <th>Required </th>
-                        
-                    </tr>
-                </thead>
-                <tfoot>
-                    <tr>
-                        <th>Field Label</th>
-                        <th>Field API Name</th>
-                        <th>Field Type</th>
-                        <th>Relationship Name</th>
-                        <th>Field Length</th>
-                        <th>Inline Help Text</th>
-                        <th>Custom Field</th>
-                        <th>Required </th>
-                    </tr>
-                </tfoot>
-                <tbody>
-                    <apex:repeat value="{!FieldResultList}" var="f">
+            <apex:commandButton value="Go" action="{!objField}" rerender="all, panel, AddStatus, objVal" oncomplete="loadTables();" status="AddStatus">
+                
+            </apex:commandButton>
+            <apex:outputPanel id="panel">
+                <table id="example" class="display nowrap" cellspacing="0" width="100%">
+                    <thead>
                         <tr>
-                            <td>{!f.LabelName}</td>
-                            <td>{!f.APIName}</td>
-                            <td>{!f.FieldType}</td>
-                            <td>{!f.RelationshipName}</td>
-                            <td>{!f.fieldlength}</td>
-                            <td>{!f.inlinehelpText}</td>
-                            <td>{!f.isCustom}</td>
-                            <td>{!f.required}</td>
+                            <th>Field Label</th>
+                            <th>Field API Name</th>
+                            <th>Field Type</th>
+                            <th>Relationship Name</th>
+                            <th>Field Length</th>
+                            <th>Inline Help Text</th>
+                            <th>Custom Field</th>
+                            <th>Required </th>
+                            
                         </tr>
-                    </apex:repeat>
-                </tbody>
-            </table>
-        </apex:outputPanel>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>Field Label</th>
+                            <th>Field API Name</th>
+                            <th>Field Type</th>
+                            <th>Relationship Name</th>
+                            <th>Field Length</th>
+                            <th>Inline Help Text</th>
+                            <th>Custom Field</th>
+                            <th>Required </th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        <apex:repeat value="{!FieldResultList}" var="f">
+                            <tr>
+                                <td>{!f.LabelName}</td>
+                                <td>{!f.APIName}</td>
+                                <td>{!f.FieldType}</td>
+                                <td>{!f.RelationshipName}</td>
+                                <td>{!f.fieldlength}</td>
+                                <td>{!f.inlinehelpText}</td>
+                                <td>{!f.isCustom}</td>
+                                <td>{!f.required}</td>
+                            </tr>
+                        </apex:repeat>
+                    </tbody>
+                </table>
+            </apex:outputPanel>
+        </apex:pageBlock>
     </apex:form>
     
     <apex:stylesheet value="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css"/>
@@ -71,23 +83,43 @@
     <apex:includeScript value="//cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"/>
     <apex:includeScript value="//cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"/>
     <apex:includeScript value="//cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"/>
-    <script>
-    function newTable(){
+    <apex:outputPanel id="objVal">
+        <script>
+        function newTable(){
+            var x = '{!val}';
+            console.log('what ismy val ' +x);
+            var table = $('#example').DataTable( {
+                "destroy": true,
+                "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                dom: 'Blfrtip',
+                buttons: [
+                    'copy',
+                    {
+                        extend: 'csvHtml5',
+                        title: x
+                    }, 
+                    {
+                        extend: 'excelHtml5',
+                        title: x
+                    }, 
+                    {
+                        extend: 'pdf',
+                        title: x
+                    },
+                    {
+                        extend: 'print',
+                        title: x
+                    }
+                ],
+            } );
+        }
         
-        var table = $('#example').DataTable( {
-            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-            dom: 'Blfrtip',
-            buttons: [
-                'copy', 'csv', 'excel', 'pdf', 'print'
-            ]
+        function loadTables(){
+            newTable();
+        }
+        $(document).ready(function() {
+            newTable();
         } );
-    }
-   
-    function loadTables(){
-       newTable();
-    }
-    $(document).ready(function() {
-        newTable();
-    } );
-    </script>
+        </script>
+    </apex:outputPanel>
 </apex:page>
