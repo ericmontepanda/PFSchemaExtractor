@@ -3,7 +3,7 @@ public class PF_PermissionSetTracker {
     
     public void retObjPermSet(){
         
-        List <PermissionSet> PSList = [SELECT Id,Label FROM PermissionSet WHERE Label LIKE '%LDAP%'];
+        List <PermissionSet> PSList = [SELECT Id,Label FROM PermissionSet ];//WHERE Label LIKE '%LDAP%'];
         system.debug('what is my PS LIst ' +PSLISt.size());
         Set <Id> pSetId = new Set <Id>();
         for(PermissionSet p: [SELECT Id,Label FROM PermissionSet]){ //WHERE Label LIKE '%LDAP%']){
